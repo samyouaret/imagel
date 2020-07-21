@@ -1,1 +1,3 @@
-require('dotenv').config({ debug: process.env.DEBUG })
+const { app, express, start } = require('../app/bootstrap');
+
+start();
