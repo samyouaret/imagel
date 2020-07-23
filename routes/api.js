@@ -1,6 +1,5 @@
-const express = require('express');
-const router = express.Router();
-
-router.route('/api');
-
-module.exports = router;
+module.exports = function (appInstance) {
+    const router = appInstance.express.Router();
+    router.route('/api');
+    return router;
+}
