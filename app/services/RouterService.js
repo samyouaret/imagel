@@ -1,6 +1,6 @@
 module.exports = {
     start: function (appObject) {
-        const { app, env, route_path, wrap } = appObject;
+        const { app, env, route_path } = appObject;
         const webRouter = require(route_path('web'))(appObject);
         const apiRouter = require(route_path('api'))(appObject);
         app.use(webRouter);
