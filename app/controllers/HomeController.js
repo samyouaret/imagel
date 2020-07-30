@@ -10,7 +10,11 @@ class HomeController extends Controller {
     }
 
     home(req, res) {
-        res.render('home', { appName: this.app.env('APP_NAME') });
+        const csrfToken = req.csrfToken ? req.csrfToken() : '';
+        res.render('home', {
+            csrfToken,
+            appName: this.app.env('APP_NAME')
+        });
     }
 
 }

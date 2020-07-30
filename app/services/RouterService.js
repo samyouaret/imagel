@@ -1,13 +1,13 @@
 module.exports = {
-    start: function (appObject) {
-        const { app, env, route_path } = appObject;
-        const webRouter = require(route_path('web'))(appObject);
-        const apiRouter = require(route_path('api'))(appObject);
+    start: function (appInstance) {
+        let app = appInstance.getApp();
+        const webRouter = require(appInstance.pathHelper.route_path('web'))(appInstance);
+        const apiRouter = require(appInstance.pathHelper.route_path('api'))(appInstance);
         app.use(webRouter);
         app.use(apiRouter);
         //custom 404 middleware handler
         app.use(function (req, res, next) {
-            res.status(404).render('404', { appName: env('APP_NAME') });
+            res.status(404).render('404', { appName: appInstance.env('APP_NAME') });
         });
 
         // custom  middleware to handle server error

@@ -9,6 +9,7 @@
 </head>
 <h1>Login Page</h1>
 <form action="/register" method="post">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
     <div>
         <label>FirstName:</label>
         <input type="text" name="firstname" />

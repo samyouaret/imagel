@@ -1,10 +1,9 @@
-const userInitializer = require('../models/user');
+const Repository = require('./Repository');
 const bcrypt = require('bcrypt');
 
-class UserRepository {
-    constructor(sequelize, DataTypes) {
-        this.sequelize = sequelize;
-        this.User = userInitializer(sequelize, DataTypes);
+class UserRepository extends Repository {
+    getModelName() {
+        return 'user';
     }
 
     async hash(password) {
@@ -15,7 +14,7 @@ class UserRepository {
     async create(user) {
         let hash = await this.hash(user.password);
         user.password = hash;
-        return this.User.create(user);
+        return this.model.create(user);
     }
 
     async authenticate(email, password) {
@@ -32,33 +31,29 @@ class UserRepository {
         return null;
     }
 
-    async findOrCreate(req, done) {
-        const { firstname, lastname, email, password } = req.body;
+    // fix user is created even if exists
+    async findOrCreate({ firstname, lastname, email, password }) {
         try {
             const user = await this.findByEmail(email)
             if (user) {
-                return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                return this.emit('exists');
             }
         } catch (err) {
+            this.emit('error', err)
             console.log(err);
             return;
         }
-
         this.create({
             firstName: firstname,
             lastName: lastname,
             email: email,
             password: password,
-        }).then(user => done(null, user))
-            .catch(err => console.log(err))
+        }).then(user => this.emit('create', user))
+            .catch(err => this.emit('error', err))
     }
 
     async findByEmail(email) {
-        return this.User.findOne({ where: { email } });
-    }
-    
-    getModel() {
-        return this.User;
+        return this.model.findOne({ where: { email } });
     }
 }
 

@@ -1,12 +1,11 @@
 const authCheck = require('../app/middlewares/auth-check');
+const express = require('express');
 
-module.exports = function (appObject) {
-    const { express, createController } = appObject;
+module.exports = function (appInstance) {
     const router = express.Router();
-    let controller = createController('HomeController');
-    router.use(authCheck(appObject));
+    let controller = appInstance.createController('HomeController');
     router.get('/', controller.index.bind(controller));
-    router.get('/home', controller.home.bind(controller));
+    router.get('/home', authCheck(appInstance), controller.home.bind(controller));
 
     return router;
 }
