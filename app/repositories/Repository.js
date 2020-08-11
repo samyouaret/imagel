@@ -1,13 +1,10 @@
-const { root_path } = require('../../helpers/PathHelper');
-const { DataTypes } = require('sequelize');
+const { getModel } = require('../../helpers/factory');
 const events = require('events');
 
 class Repository extends events.EventEmitter {
-    constructor(connection) {
+    constructor() {
         super();
-        this.connection = connection;
-        let modelInitializer = require(root_path('app/models/' + this.getModelName()));
-        this.model = modelInitializer(connection, DataTypes);
+        this.model = getModel(this.getModelName());
     }
 
     getModel() {

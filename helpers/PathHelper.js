@@ -8,28 +8,31 @@ module.exports = {
         }
         return process.env[key] || null;
     },
-    root_path(filePath) {
+    root_path(filePath = '') {
         return path.join(path.dirname(__dirname), filePath)
     },
-    view_path(view) {
+    resource(file = '') {
+        return path.join(path.dirname(__dirname), "resources/", file)
+    },
+    view_path(view = '') {
         return path.join(path.dirname(__dirname), "resources/views", view)
     },
-    route_path(route) {
+    route_path(route = '') {
         return path.join(path.dirname(__dirname), "routes", route)
     },
-    static_path(file) {
+    static_path(file = '') {
         return path.join(path.dirname(__dirname), "public", file)
     },
-    service_path(file) {
+    service_path(file = '') {
         return path.join(path.dirname(__dirname), 'app', "services", file)
     },
-    config_path(file) {
+    config_path(file = '') {
         return path.join(path.dirname(__dirname), "config", file)
     },
-    model_path(file) {
-        return path.join(path.dirname(__dirname), "app", 'models', file)
+    model_path(file = '') {
+        return path.join(path.dirname(__dirname), "database", 'models', file)
     },
-    controller_path(file) {
+    controller_path(file = '') {
         return path.join(path.dirname(__dirname), 'app', "controllers", file)
-    }
+    },
 }

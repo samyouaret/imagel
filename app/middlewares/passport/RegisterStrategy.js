@@ -1,7 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 const UserRepository = require('../../repositories/UserRepository');
 
-module.exports = function (connection) {
+module.exports = function () {
     return new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
         usernameField: 'email',
@@ -9,9 +9,10 @@ module.exports = function (connection) {
         passReqToCallback: true // allows us to pass back the entire request to the callback
     }, function (req, email, password, done) {
         console.log('registering ....');
-        const userRepository = new UserRepository(connection);
+        const userRepository = new UserRepository();
         userRepository.on('exists', function () {
-            done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+            console.log('user exists');
+            done(null, false, { message: 'email is already taken' });
         });
         userRepository.on('create', function (user) {
             done(null, user)

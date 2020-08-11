@@ -1,31 +1,54 @@
 const Application = require('../app/Application');
 const UserRepository = require('../app/repositories/UserRepository');
-const app = new Application();
-app.loadServices();
-const userRepo = new UserRepository(app.connection);
+const connection = require('../app/connection');
+const userRepo = new UserRepository();
 
-describe('authentication /register,/login', () => {
-    it('should login', async () => {
-        await request.agent(app.getApp())
-            .post('/login')
-            .send({
-                email: 'maily@mail.com',
-                password: 'maily123456',
-            }).expect(302)
-            .expect('Location', '/');
+afterEach(done => {
+    connection().close();
+    done()
+});
+
+describe('authentication /signup,/signin', () => {
+    it('should login', (done) => {
+        const user = {
+            firstName: 'bilal',
+            lastName: 'bichbich',
+            email: 'bilal@mail.com',
+            password: 'bilal123456',
+        }
+        const credentials = {
+            email: user.email, password: user.password
+        };
+        userRepo.create(user).then(user => {
+            console.log(credentials);
+            request.agent(app.getServer())
+                .post('/signin')
+                .send(urlencode(credentials))
+                .expect(302)
+                .expect('Location', '/home')
+                .end(done);
+        })
     });
 
-    it('should create a new user', async () => {
-        await request.agent(app.getApp())
-            .post('/register')
-            .send({
-                firstName: "Milano",
-                lastName: 'binari',
-                email: 'milano@mail.com',
-                password: 'Milano123456',
-            }).expect(302)
-            .expect('Location', '/');
-        let newUser = await userRepo.findByEmail('milano@mail.com');
-        expect(newUser).not.toBeNull();
+    it('should create a new user', (done) => {
+        const user = {
+            firstname: "Milano",
+            lastname: 'binari',
+            email: 'milano@mail.com',
+            password: 'Milano123456',
+        }
+        request.agent(app.getServer())
+            .post('/signup')
+            .send(urlencode(user))
+            .expect(302)
+            .expect('Location', '/home')
+            .end(function (err, res) {
+                // res.should.have.status(200);
+                // let cookie = res.headers['set-cookie'];
+                userRepo.findByEmail('milano@mail.com').then(user => {
+                    expect(user).not.toBeNull();
+                    done();
+                });
+            });
     });
 });

@@ -1,26 +1,23 @@
-const Controller = require('./Controller');
 const UserRepository = require('../repositories/UserRepository');
 
-class AuthController extends Controller {
-    constructor(app) {
-        super(app);
-        this.repository = new UserRepository(app.getConnection());
+class AuthController {
+    constructor() {
+        this.repository = new UserRepository();
     }
 
     login(req, res) {
+        let message = withMessage(req);
         const csrfToken = req.csrfToken ? req.csrfToken() : '';
         res.render('login', {
-            csrfToken,
-            appName: this.app.env('APP_NAME')
+            csrfToken, message
         });
     }
 
     register(req, res) {
-        console.log(req.flash());
+        let message = withMessage(req);
         const csrfToken = req.csrfToken ? req.csrfToken() : '';
         res.render('register', {
-            csrfToken,
-            appName: this.app.env('APP_NAME')
+            csrfToken, message
         });
     }
 

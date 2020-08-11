@@ -1,64 +1,88 @@
 const pathHelper = require('../helpers/PathHelper');
 const express = require('express');
-const { DataTypes } = require('sequelize');
-const { services } = require(pathHelper.config_path('services'));
 const fs = require('fs');
-const path = require('path');
+const session = require('express-session');
+const flash = require('connect-flash');
+const isApi = require('./middlewares/isApiRequest');
+
+const cookieParser = require('cookie-parser');
 
 class Application {
     constructor() {
-        this.connection = null;
         this.app = express();
         this.pathHelper = pathHelper;
         this.env = pathHelper.env;
-        this.APP_PORT = pathHelper.env('APP_PORT') || 8080;
+        this.APP_PORT = pathHelper.env('port') || pathHelper.env('APP_PORT') || 8080;
         if (pathHelper.env('NODE_ENV')) {
             pathHelper.env('APP_ENV', pathHelper.env('NODE_ENV'));
         } else {
             pathHelper.env('NODE_ENV', this.APP_ENV);
         }
         this.APP_ENV = pathHelper.env('APP_ENV');
-        this.models = {};
-        this.VIEWS_PATH = pathHelper.root_path(pathHelper.env('VIEWS_PATH')) || pathHelper.view_path('');
-        this.STATIC_PATH = pathHelper.root_path(pathHelper.env('STATIC_PATH')) || pathHelper.static_path('');
+        this.VIEWS_PATH = pathHelper.root_path(pathHelper.env('VIEWS_PATH')) || pathHelper.view_path();
+        this.STATIC_PATH = pathHelper.root_path(pathHelper.env('STATIC_PATH')) || pathHelper.static_path();
     }
 
-    loadModels() {
-        const modelsPath = pathHelper.model_path('');
-        fs.readdir(modelsPath, (err, files) => {
-            let models = {};
-            files.forEach(file => {
-                let modelName = path.basename(file).split('.')[0];
-                models[modelName] =
-                    require(pathHelper.model_path(file))
-                        (this.connection, DataTypes);
-            });
-            this.models = models;
-        });
-    }
-
-    getConnection() {
-        return this.connection;
-    }
-
-    createController(ClassName) {
-        const controllerClass = require(this.pathHelper.controller_path(ClassName));
-        return new controllerClass(this);
-    }
-
-    getApp() {
+    getServer() {
         return this.app;
     }
 
     start() {
-        this.loadServices();
-        this.loadModels();
+        this.init();
         this.startServer();
     }
 
-    loadServices() {
-        services.forEach(service => {
-            require(service).start(this);
+    init() {
+        global.env = pathHelper.env;
+        global.view = pathHelper.view;
+        global.withMessage = (req) => {
+            let message = { errors: [], success: [] };
+            if (req.session.flash && req.session.flash.message) {
+                // fix this in all project make it consistance
+                message = req.session.flash.message[0]
+            }
+            if (req.session.flash && req.session.flash.error) {
+                message.errors.push(req.session.flash.error.join('/'))
+            }
+            return message;
+        };
+        this.app.set('view engine', this.env('VIEW_ENGINE'));
+        this.app.set('views', this.VIEWS_PATH);
+        this.app.use(isApi);
+        this.app.use(express.static(this.STATIC_PATH));
+        this.app.use(cookieParser(this.env('APP_KEY')));
+        this.app.use(session({
+            secret: this.env('APP_KEY'),
+            resave: true,
+            saveUninitialized: true,
+        }));
+        this.app.use(flash());
+        this.loadRoutes(() => {
+            // custom 404 middleware handler
+            this.app.use((req, res, next) => {
+                res.status(404).render('404', { appName: this.env('APP_NAME') });
+            });
+
+            // custom  middleware to handle server error
+            this.app.use((err, req, res, next) => {
+                console.log(err.stack);
+                res.status(500).send("<h3>Sorry internal error occured.<h3>")
+            });
+        }, { only: ['web'] });
+    }
+
+    loadRoutes(callback, options = { only: null }) {
+
+        const routesPath = pathHelper.route_path();
+        fs.readdir(routesPath, (err, files) => {
+            files.forEach(file => {
+                if (options.only && options.only.includes(file.replace('.js', ''))) {
+                    console.log(file);
+                    let router = require(pathHelper.route_path(file));
+                    this.app.use(router);
+                }
+            });
+            callback();
         });
     }
 

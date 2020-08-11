@@ -1,0 +1,21 @@
+<%- include('../layouts/header',{message}); %>
+<form action="/images" method="post" enctype="multipart/form-data" class="mx-auto md:max-w-screen-md">
+    <h1 class="text-3xl text-gray-800 my-4">Join us now !</h1>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <div>
+        <label class="form-label">Title:</label>
+        <input class="form-control" type="text" name="title" />
+    </div>
+    <div>
+        <label class="form-label">Description:</label>
+        <input class="form-control" type="text" name="description" />
+    </div>
+    <div>
+        <label class="form-label">please upload image </label>
+        <input class="form-control" type="file" name="image" />
+    </div>
+    <div>
+        <input class="btn bg-blue-700 text-white" type="submit" value="add Image" />
+    </div>
+</form>
+<%- include('../layouts/footer'); %>

@@ -14,8 +14,8 @@ module.exports = {
     },
     test: {
         database: env('DB_TEST'),
-        host: '127.0.0.1',
-        dialect: 'sqlite'
+        dialect: 'sqlite',
+        host: '127.0.0.1'
     },
     production: {
         username: env('DB_USERNAME'),

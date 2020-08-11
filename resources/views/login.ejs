@@ -1,30 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= appName %></title>
-    <link rel="stylesheet" href="/css/index.css">
-</head>
-<h1>Login Page</h1>
-<form action="/login" method="post">
+<%- include('layouts/header', {message:{}}); %>
+<form action="/signin" method="post" class="mx-auto md:max-w-screen-md">
+    <h1 class="text-3xl text-gray-800 my-4">Welcome back !</h1>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
     <div>
-        <label>Username:</label>
-        <input type="text" name="email" />
+        <label class="form-label">Username:</label>
+        <input class="form-control" type="text" name="email" />
     </div>
     <div>
-        <label>Password:</label>
-        <input type="password" name="password" />
+        <label class="form-label">Password:</label>
+        <input class="form-control" type="password" name="password" />
     </div>
     <div>
-        <input type="submit" value="Log In" />
+        <button class="btn bg-gray-800 text-white" type="submit">sign in</button>
     </div>
 </form>
-
-<body>
-
-</body>
-
-</html>
+<%- include('layouts/footer'); %>

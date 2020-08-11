@@ -1,5 +1,6 @@
 const middleware = require('../app/middlewares/auth');
 const guest = require('../app/middlewares/guest');
+const { createController } = require('../helpers/factory');
 const { rules, validateWeb } = require('../validators/userValidator');
 const passport = require('passport');
 
@@ -11,15 +12,13 @@ function authenticate(name) {
     });
 }
 
-module.exports = function (appInstance) {
-    const router = middleware(appInstance);
-    let AuthController = appInstance.createController('AuthController');
-    let guestMiddleware = guest(appInstance);
-    router.get('/register', guestMiddleware, AuthController.register.bind(AuthController));
-    router.post('/register', guestMiddleware, rules(), validateWeb, authenticate('local-signup'));
-    router.get('/login', guestMiddleware, AuthController.login.bind(AuthController));
-    router.post('/login', guestMiddleware, authenticate('local-login'));
-    router.post('/logout', AuthController.logout.bind(AuthController));
+const router = middleware();
+let AuthController = createController('AuthController');
+// guest, rules(), validateWeb
+router.get('/signup', guest, AuthController.register.bind(AuthController));
+router.post('/signup', guest, rules(), validateWeb, authenticate('local-signup'));
+router.get('/signin', guest, AuthController.login.bind(AuthController));
+router.post('/signin', guest, authenticate('local-login'));
+router.post('/logout', AuthController.logout.bind(AuthController));
 
-    return router;
-}
+module.exports = router;

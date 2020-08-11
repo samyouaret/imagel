@@ -2,8 +2,9 @@ const Repository = require('./Repository');
 const bcrypt = require('bcrypt');
 
 class UserRepository extends Repository {
+
     getModelName() {
-        return 'user';
+        return 'User';
     }
 
     async hash(password) {
@@ -19,13 +20,15 @@ class UserRepository extends Repository {
 
     async authenticate(email, password) {
         const user = await this.findByEmail(email);
-        try {
-            const match = await bcrypt.compare(password, user.password);
-            if (match) {
-                return user;
+        if (user) {
+            try {
+                const match = await bcrypt.compare(password, user.password);
+                if (match) {
+                    return user;
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
         }
 
         return null;

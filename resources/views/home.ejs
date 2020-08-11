@@ -1,22 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= appName %></title>
-    <link rel="stylesheet" href="/css/index.css">
-</head>
+<%- include('layouts/header'); %>
 <form action="/logout" method="post">
     <div>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
         <input type="submit" value="Log out" />
     </div>
 </form>
-<h1>Home Page</h1>
-
-<body>
-
-</body>
-
-</html>
+<div id="app"></div>
+<script src="/js/index.bundle.js"></script>
+<%- include('layouts/footer'); %>

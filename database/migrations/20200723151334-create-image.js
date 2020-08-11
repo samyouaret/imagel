@@ -22,7 +22,14 @@ module.exports = {
       },
       owner: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        //foreign key def
+        references: {
+          // This is a reference to User model
+          // it uses plural (table name )
+          model: 'Users',
+          // This is the column name of the referenced model
+          key: 'id'
+        },
       },
       createdAt: {
         allowNull: false,

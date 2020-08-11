@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const user = require('./user');
+
 module.exports = (sequelize, DataTypes) => {
   class Image extends Model {
     /**
@@ -11,9 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Image.belongsToMany(models.User, {
+        through: "image_likes",
+        foreignKey: "image_id",
+      });
+      Image.belongsTo(models.User, {
+        foreignKey: 'owner'
+      });
     }
   };
+
+  // console.log("userInitializer: ",userInitializer);
+  // const User = userInitializer(sequelize, DataTypes);
+
   Image.init({
     // Model attributes are defined here
     id: {
@@ -30,13 +40,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     likes: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     owner: {
       type: DataTypes.INTEGER,
+      //foreign key def
       references: {
         // This is a reference to another model
-        model: user,
+        model: 'User',
         // This is the column name of the referenced model
         key: 'id'
       }
@@ -45,5 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Image',
   });
+
+
   return Image;
 };
