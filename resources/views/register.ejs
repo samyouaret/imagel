@@ -1,4 +1,4 @@
-<%- include('layouts/header', {message: message || {} }); %>
+<%- include('layouts/header', {message }); %>
 <form action="/signup" method="post" class="mx-auto md:max-w-screen-md">
     <h1 class="text-3xl text-gray-800 my-4">Join us now !</h1>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />

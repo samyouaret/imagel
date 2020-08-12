@@ -24,26 +24,31 @@
         </div>
         <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
             <div class="text-sm lg:flex-grow">
-                <a href="/home"
-                    class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4">
+                <a href="/home" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4">
                     Home
                 </a>
             </div>
             <div>
-                <a href="/signin" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-600 hover:bg-white mt-4 lg:mt-0">Sign in</a>
+                <a href="/signin"
+                    class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-600 hover:bg-white mt-4 lg:mt-0">Sign
+                    in</a>
                 <a href="/signup"
                     class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-600 hover:bg-white mt-4 lg:mt-0">Sign
                     up</a>
             </div>
         </div>
     </nav>
-    <% if (typeof(message)  == "object")  { %>
-    <% if (message.errors) { %>
-    <% for (const key in message.errors) { %>
-    <small class='text-red-500'><%= message.errors[key] %></small><br>
-    <% } %>
-    <% } %>
-    <% if (message.success) { %>
-    <small style='color:green'><%= message.success %></small>
-    <% } %>
-    <% } %>
+     <% if (typeof(message)  == "object" && (message.errors.length || message.success.length ))  { %>
+    <div class="p-4 rounded-md text-center w-auto mx-auto text-lg bg-red-200 md:w-1/2">
+        <% if (message.errors) { %>
+        <% for (const key in message.errors) { %>
+        <small class='text-red-600'><%= message.errors[key] %></small><br>
+        <% } %>
+        <% } %>
+        <% if (message.success) { %>
+        <% for (const key in message.success) { %>
+        <small class='text-green-500'><%= message.success[key] %></small>
+        <% } %>
+        <% } %>
+        <% } %>
+    </div>

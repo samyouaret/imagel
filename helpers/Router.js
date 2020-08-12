@@ -1,12 +1,11 @@
 const express = require('express');
-const csrf = require('../app/middlewares/csrf')
-const authMiddleware = require('../app/middlewares/auth')
 const { createController } = require('../helpers/factory');
 const guest = require('../app/middlewares/guest');
-const { rules, validateWeb } = require('../validators/userValidator');
+const { rules } = require('../validators/userValidator');
+const validate = require('../validators/validator');
 const passport = require('passport');
 
-const csrfProtection = csrf();
+
 const mergeMiddlewares = (options) => {
     let middlewares = {
         index: [],
@@ -42,9 +41,9 @@ function auth(router,options = {}) {
         });
     }
     let AuthController = createController('AuthController');
-    // guest, rules(), validateWeb
+
     router.get('/signup', guest, AuthController.register.bind(AuthController));
-    router.post('/signup', guest, rules(), validateWeb, authenticate('local-signup'));
+    router.post('/signup', guest, rules(), validate, authenticate('local-signup'));
     router.get('/signin', guest, AuthController.login.bind(AuthController));
     router.post('/signin', guest, authenticate('local-login'));
     router.post('/logout', AuthController.logout.bind(AuthController));
@@ -61,7 +60,6 @@ module.exports = {
         let controller = createController(controllerName);
         url = '/' + url;
         let singleResourceUrl = url + "/:" + param;
-        // router.use(csrfProtection);
         // create view
         router.get(url + '/create', middlewares.create, controller.create.bind(controller));
         // edit view
@@ -76,7 +74,7 @@ module.exports = {
         router.get(url, middlewares.index, controller.index.bind(controller));
         // store method
         router.post(url, middlewares.store, controller.store.bind(controller));
-        // router.use(csrf());
+
         return router;
     }, auth
 }

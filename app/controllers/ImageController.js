@@ -19,12 +19,12 @@ class ImageController {
 
     async create(req, res) {
         const csrfToken = req.csrfToken ? req.csrfToken() : '';
-        const image = await this.repository.getModel().findOne({
-            where: { id: 1 }, 
-        });
-        console.log(image);
-        const owner = await image.getUser();
-        console.log(owner);
+        // const image = await this.repository.getModel().findOne({
+        //     where: { id: 1 }, 
+        // });
+        // console.log(image);
+        // const owner = await image.getUser();
+        // console.log(owner);
         // console.log(await owner.getImages}));
         let message = withMessage(req);
         res.render('image/create', {
@@ -32,8 +32,15 @@ class ImageController {
         });
     }
 
-    edit(req, res) {
-        res.end('edit image ' + req.params.image);
+    async edit(req, res) {
+        const csrfToken = req.csrfToken ? req.csrfToken() : '';
+        const image = await this.repository.getModel().findOne({
+            where: { id: req.params.image },
+        });
+        let message = withMessage(req);
+        res.render('image/edit', {
+            csrfToken, message, image
+        });
     }
 
     async store(req, res) {
@@ -51,8 +58,19 @@ class ImageController {
         res.end(JSON.stringify(newImage));
     }
 
-    update(req, res) {
-        res.end('update image ' + req.params.image);
+    async update(req, res) {
+        // let ownerId = req.user.id;
+        console.log(req.file, req.body);
+        console.log(req.user);
+        if (!req.file) {
+            return res.redirect('back');
+        }
+        const image = {};
+        image.title = req.body.title;
+        image.description = req.body.description;
+        image.url = req.file.filename;
+        let newImage = await this.repository.create(image, req.user.id)
+        res.end(JSON.stringify(newImage));
     }
 
     destroy(req, res) {

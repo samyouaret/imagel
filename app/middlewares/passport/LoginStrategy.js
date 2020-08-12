@@ -12,9 +12,9 @@ module.exports = function () {
             userRepository.authenticate(email, password)
                 .then((user) => {
                     if (!user) {
-                        return done(null, false, { message: { errors: 'incorrect email/password.' } });
+                        return done(null, false, { message: 'incorrect email/password.' });
                     }
-                    done(null, user, { message: { success: 'login success' } });
+                    done(null, user, { message: 'login success' });
                 }).catch((err) => done(err));
         });
 }

@@ -37,13 +37,13 @@ class Application {
         global.view = pathHelper.view;
         global.withMessage = (req) => {
             let message = { errors: [], success: [] };
-            if (req.session.flash && req.session.flash.message) {
-                // fix this in all project make it consistance
-                message = req.session.flash.message[0]
+            // you need to consume it with req.flash
+            // otherwise it persists
+            if (req.session.flash) {
+                message.errors = req.flash('error');
+                message.success = req.flash('success');
             }
-            if (req.session.flash && req.session.flash.error) {
-                message.errors.push(req.session.flash.error.join('/'))
-            }
+            console.log('final messages ---- ', message);
             return message;
         };
         this.app.set('view engine', this.env('VIEW_ENGINE'));
@@ -60,7 +60,7 @@ class Application {
         this.loadRoutes(() => {
             // custom 404 middleware handler
             this.app.use((req, res, next) => {
-                res.status(404).render('404', { appName: this.env('APP_NAME') });
+                res.status(404).render('404');
             });
 
             // custom  middleware to handle server error

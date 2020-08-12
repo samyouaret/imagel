@@ -6,6 +6,8 @@ const { resources, auth } = require('../helpers/Router');
 const multer = require('multer');
 const csrf = require('../app/middlewares/csrf')
 const authMiddleware = require('../app/middlewares/auth')
+const imageValidator = require('../validators/imageValidator')
+const validate = require('../validators/validator')
 
 const router = authMiddleware();
 
@@ -27,8 +29,7 @@ const fileFilter = (req, file, callback) => {
     if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
         callback(null, true);
     } else {
-
-        req.flash('message', { errors: ['file must be an image.'] });
+        req.flash('error', ['file must be an image.']);
         callback(null, false);
     }
 }
@@ -44,7 +45,7 @@ const imageRouter = express.Router();
 // imageRouter.use(authCheck);
 resources('/images', 'ImageController', {
     middlewares: {
-        store: [],
+        store: [imageValidator.rules(), validate],
         update: [],
     },
     router: imageRouter

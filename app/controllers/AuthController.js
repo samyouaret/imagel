@@ -15,6 +15,7 @@ class AuthController {
 
     register(req, res) {
         let message = withMessage(req);
+        console.log("called in register");
         const csrfToken = req.csrfToken ? req.csrfToken() : '';
         res.render('register', {
             csrfToken, message
