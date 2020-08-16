@@ -2,5 +2,4 @@ node_modules
 .env
 yarn-error.log
 .vscode
-public/storage
 coverage
