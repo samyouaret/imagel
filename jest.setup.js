@@ -11,6 +11,6 @@ global.request = request;
 global.app = app;
 global.urlencode = urlencode;
 global.urldecode = urldecode;
-jest.setTimeout(600000); // in milliseconds
+jest.setTimeout(60000); // in milliseconds
 
 // Fail tests on any warning
