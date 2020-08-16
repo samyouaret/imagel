@@ -5,6 +5,7 @@ install: yarn install
 services:
   - mysql
 before_script:
+  - cp .env.example .env
   - mysql -e 'CREATE DATABASE IF NOT EXISTS imagel_testing;'
 script: yarn test
 after_success: yarn run coverage
