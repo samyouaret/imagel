@@ -16,8 +16,8 @@
     "seed": "NODE_ENV=test sequelize-cli db:seed:all",
     "migrate:reset": "sequelize-cli db:migrate:undo:all && yarn run migrate",
     "pretest": "NODE_ENV=test yarn run migrate:reset &&  yarn run seed",
-    "test": "NODE_ENV=test jest -- tests --detectOpenHandles --forceExit",
-    "coverage": "npm run pretest && jest -- tests --coverage"
+    "test": "NODE_ENV=test jest -- tests --runInBand --maxWorkers=4 --detectOpenHandles --forceExit",
+    "coverage": "NODE_ENV=test yarn run pretest && jest -- tests --coverage"
   },
   "dependencies": {
     "babel-loader": "^8.1.0",

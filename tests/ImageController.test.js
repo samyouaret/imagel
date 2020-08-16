@@ -34,6 +34,7 @@ describe('image controller CRUD', () => {
             .expect(201)
             .end(async function (err, res) {
                 expect(err).toBeNull();
+                console.log(err);
                 expect(res.body.title).toBe('new title');
                 expect(res.body.description).toBe('new desc');
                 expect(res.body.url).toMatch(/test\$_.+\.jpg$/);
@@ -53,6 +54,7 @@ describe('image controller CRUD', () => {
             .expect('Location', '/')
             .end(async function (err, res) {
                 expect(err).toBeNull();
+                console.log(err);
                 done();
             })
     });
@@ -66,6 +68,7 @@ describe('image controller CRUD', () => {
             .expect('Location', '/')
             .end(async function (err, res) {
                 expect(err).toBeNull();
+                console.log(err);
                 done();
             })
     });
@@ -79,6 +82,7 @@ describe('image controller CRUD', () => {
             .expect(200)
             .end(function (err, res) {
                 expect(err).toBeNull();
+                console.log(err);
                 expect(res.body).toEqual(clonedImage);
                 done()
             })
@@ -93,6 +97,7 @@ describe('image controller CRUD', () => {
             .expect(200)
             .end(function (err, res) {
                 expect(err).toBeNull();
+                console.log(err);
                 let firstImage = res.body[0];
                 expect(firstImage).toEqual(clonedImage);
                 expect(res.body).toHaveLength(2);
@@ -110,6 +115,7 @@ describe('image controller CRUD', () => {
             .expect(200)
             .end(function (err, res) {
                 expect(err).toBeNull();
+                console.log(err);
                 expect(res.body.title).toBe('updated title');
                 expect(res.body.description).toBe('updated desc');
                 expect(res.body.url).toMatch(/test\$_.+\.jpg$/);
@@ -131,6 +137,7 @@ describe('image controller CRUD', () => {
             .expect(200)
             .end(function (err, res) {
                 expect(err).toBeNull();
+                console.log(err);
                 expect(res.body.title).toBe('some new title');
                 expect(res.body.description).toBe('some new desc');
                 storage.has('uploads/' + res.body.url)
@@ -148,6 +155,7 @@ describe('image controller CRUD', () => {
             .expect(404)
             .end((err, res) => {
                 expect(err).toBeNull();
+                console.log(err);
                 done()
             })
     });
@@ -158,6 +166,7 @@ describe('image controller CRUD', () => {
             .expect(200)
             .end(function (err, res) {
                 expect(err).toBeNull();
+                console.log(err);
                 expect(res.body).toEqual({ message: 'image deleted' });
                 done()
             })
@@ -170,6 +179,7 @@ describe('image controller CRUD', () => {
             .expect(404)
             .end(function (err, res) {
                 expect(err).toBeNull();
+                console.log(err);
                 expect(res.body).toEqual({ error: 'image not found' });
                 done()
             })
