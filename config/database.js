@@ -1,4 +1,4 @@
-const { env } = require('../helpers/PathHelper');
+const { env } = require('../utils/PathHelper');
 
 module.exports = {
     development: {
@@ -9,13 +9,23 @@ module.exports = {
         port: 3306,
         dialect: env('DB_CONNECTION'),
         dialectOptions: {
-            bigNumberStrings: true
+            bigNumberStrings: true,
+            waitForConnections: true,
+            connectionLimit: 10,
+            queueLimit: 0
         }
     },
     test: {
-        database: env('DB_TEST'),
-        dialect: 'sqlite',
-        host: '127.0.0.1'
+        username: env('DB_USERNAME'),
+        password: env('DB_PASSWORD'),
+        database: env('DB_DATABASE_TEST'),
+        host: env('DB_HOST'),
+        port: 3306,
+        dialect: env('DB_CONNECTION'),
+        dialectOptions: {
+            bigNumberStrings: true
+        },
+        logging: false
     },
     production: {
         username: env('DB_USERNAME'),
@@ -26,6 +36,7 @@ module.exports = {
         dialect: env('DB_CONNECTION'),
         dialectOptions: {
             bigNumberStrings: true
-        }
+        },
+        logging: false
     }
 };

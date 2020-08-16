@@ -1,6 +1,5 @@
-const pathHelper = require('./PathHelper');
+const pathHelper = require('../utils/PathHelper');
 const connection = require('../app/connection');
-const { DataTypes } = require('sequelize');
 
 module.exports = {
     createController(ClassName) {

@@ -12,6 +12,13 @@ class ImageRepository extends Repository {
         return this.model.create(image);
     }
 
+    async findById(id, options = null) {
+        return this.model.findOne({
+            where: { id },
+            ...options
+        });
+    }
+
 }
 
 module.exports = ImageRepository;

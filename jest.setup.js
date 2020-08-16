@@ -6,7 +6,6 @@ const Application = require('./app/Application');
 const { urlencode, urldecode } = require('./helpers/url');
 
 const app = new Application();
-app.init();
 
 global.request = request;
 global.app = app;

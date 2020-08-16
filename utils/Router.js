@@ -53,7 +53,6 @@ function auth(router,options = {}) {
 module.exports = {
     resources(url, controllerName, options = {}) {
         let middlewares = mergeMiddlewares(options);
-        console.log(middlewares);
         const router = options.router || express.Router();
         url = url.replace(/\//g, '');
         let param = options.param ? options.param : url.replace(/s$/, '');

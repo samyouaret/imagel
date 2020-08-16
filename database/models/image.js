@@ -21,9 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  // console.log("userInitializer: ",userInitializer);
-  // const User = userInitializer(sequelize, DataTypes);
-
   Image.init({
     // Model attributes are defined here
     id: {
@@ -33,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     url: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    title: {
+      type: DataTypes.TEXT,
       allowNull: false
     },
     description: {

@@ -13,9 +13,11 @@
     "watch": "yarn run buildcss & webpack --w --mode development",
     "build": "webpack --mode production",
     "migrate": "sequelize-cli db:migrate",
+    "seed": "NODE_ENV=test sequelize-cli db:seed:all",
     "migrate:reset": "sequelize-cli db:migrate:undo:all && yarn run migrate",
-    "pretest": "yarn run migrate:reset",
-    "test": "NODE_ENV=test jest --detectOpenHandles --forceExit"
+    "pretest": "NODE_ENV=test yarn run migrate:reset &&  yarn run seed",
+    "test": "NODE_ENV=test jest -- tests --runInBand --detectOpenHandles --forceExit",
+    "coverage": "npm run pretest && jest -- tests --coverage"
   },
   "dependencies": {
     "babel-loader": "^8.1.0",
@@ -28,6 +30,8 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.6.0",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "mysql2": "^2.1.0",
     "passport": "^0.4.1",

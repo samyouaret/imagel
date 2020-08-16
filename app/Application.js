@@ -1,9 +1,11 @@
-const pathHelper = require('../helpers/PathHelper');
+const pathHelper = require('../utils/PathHelper');
 const express = require('express');
 const fs = require('fs');
 const session = require('express-session');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 const isApi = require('./middlewares/isApiRequest');
+const morgan = require('morgan');
 
 const cookieParser = require('cookie-parser');
 
@@ -43,14 +45,21 @@ class Application {
                 message.errors = req.flash('error');
                 message.success = req.flash('success');
             }
-            console.log('final messages ---- ', message);
             return message;
         };
         this.app.set('view engine', this.env('VIEW_ENGINE'));
         this.app.set('views', this.VIEWS_PATH);
         this.app.use(isApi);
+        // create a write stream (in append mode)
+        var accessLogStream = fs.createWriteStream(pathHelper.static_path('storage/logs/access.log'), { flags: 'a' })
+        // setup the logger
+        this.app.use(morgan('combined', { stream: accessLogStream }))
+
         this.app.use(express.static(this.STATIC_PATH));
         this.app.use(cookieParser(this.env('APP_KEY')));
+        this.app.use(express.urlencoded({ extended: false }));
+        // to use put,delete coming form html forms
+        this.app.use(methodOverride("_method"));
         this.app.use(session({
             secret: this.env('APP_KEY'),
             resave: true,
@@ -77,7 +86,6 @@ class Application {
         fs.readdir(routesPath, (err, files) => {
             files.forEach(file => {
                 if (options.only && options.only.includes(file.replace('.js', ''))) {
-                    console.log(file);
                     let router = require(pathHelper.route_path(file));
                     this.app.use(router);
                 }

@@ -8,10 +8,8 @@ module.exports = function () {
         passwordField: 'password',
         passReqToCallback: true // allows us to pass back the entire request to the callback
     }, function (req, email, password, done) {
-        console.log('registering ....');
         const userRepository = new UserRepository();
         userRepository.on('exists', function () {
-            console.log('user exists');
             done(null, false, { message: 'email is already taken' });
         });
         userRepository.on('create', function (user) {

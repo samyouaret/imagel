@@ -10,12 +10,10 @@ module.exports = function () {
     passport.use('local-login', LoginStrategy());
     passport.use('local-signup', RegisterStrategy());
 
-    console.log('init auth.....');
     const router = express.Router();
     router.use(express.urlencoded({ extended: false }));
     router.use(passport.initialize());
     router.use(passport.session());
-    // router.use(flash());
     // router.use(csrf());
 
     passport.serializeUser(function (user, done) {
