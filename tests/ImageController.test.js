@@ -10,7 +10,9 @@ let image;
 
 beforeAll(async (done) => {
     image = await imageRepo.getModel().findOne({ raw: true });
-    await storage.create('uploads/' + image.url);
+    console.log('created image', image);
+    const created = await storage.create('uploads/' + image.url);
+    console.log('uploads dir created', created);
     app.getServer()
         .use(actAs(fakeUser));
     app.init();
