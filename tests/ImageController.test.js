@@ -8,7 +8,7 @@ const { root_path } = require('../utils/PathHelper');
 
 let image;
 
-beforeAll(async (done) => {
+beforeAll(async () => {
     image = await imageRepo.getModel().findOne({ raw: true });
     console.log('created image', image);
     const created = await storage.create('uploads/' + image.url);
@@ -16,7 +16,6 @@ beforeAll(async (done) => {
     app.getServer()
         .use(actAs(fakeUser));
     app.init();
-    done();
 });
 
 afterAll(async (done) => {
