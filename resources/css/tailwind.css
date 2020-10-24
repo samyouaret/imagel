@@ -4,20 +4,53 @@
 /* purgecss end ignore */
 
 .form-control {
-    @apply appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight;
+      @apply appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight;
 }
 
 .form-control:focus {
-    @apply border-gray-500 outline-none bg-white;
+      @apply border-gray-500 outline-none bg-white;
 }
 
 .form-label {
-    @apply block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2;
+      @apply block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2;
 }
 
 .btn {
-    @apply mt-2 rounded-sm p-2 shadow-sm border-0 outline-none cursor-pointer;
+      @apply mt-2 rounded-sm p-2 shadow-sm border-0 outline-none cursor-pointer;
 }
 
+.nav {
+      @apply flex flex-wrap justify-between;
+}
+
+.nav-links {
+      @apply flex flex-col w-full h-0 overflow-hidden;
+}
+
+@screen md {
+      .nav {
+            @apply justify-between;
+      }
+
+      .nav-links {
+            @apply flex-row justify-between;
+            width: auto;
+            height: auto !important;
+            overflow: auto !important;
+            max-height: 50px !important;
+      }
+}
+
+.nav-item {
+      @apply text-gray-800 text-md p-3;
+}
+
+.nav-item:hover {
+      @apply text-blue-600;
+}
+
+.nav-item:hover {
+      @apply text-blue-600;
+}
 
 @tailwind utilities;

@@ -7,9 +7,13 @@ class ImageController {
     }
 
     async index(req, res) {
+        let options = { raw: true, limit: 10 };
+        if (req.query.owner) {
+            options.where = { owner: parseInt(req.query.owner) }
+        }
         const images = await this.repository
             .getModel()
-            .findAll({ raw: true, limit: 10 });
+            .findAll(options);
         if (!images) {
             return res.status(404).json([]);
         }
@@ -100,6 +104,7 @@ class ImageController {
             return res.status(200).json({ message: 'image deleted' });
         } catch (error) {
             console.log(error.stack);
+            // set the appropriate status here
             return res.json({ error: 'cannot delete image' })
         }
 

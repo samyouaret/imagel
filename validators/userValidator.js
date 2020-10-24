@@ -19,7 +19,8 @@ module.exports = {
             body('password').isLength({ min: 8 })
                 .withMessage('password length should be at least 8.')
                 .bail()
-                .isAlphanumeric().withMessage('password should only contain characters and numbers.')
+                .isAlphanumeric()
+                .withMessage('password should only contain characters and numbers.')
             ,
         ]
     }
