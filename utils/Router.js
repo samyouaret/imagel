@@ -47,7 +47,6 @@ function auth(router,options = {}) {
     router.get('/signin', guest, AuthController.login.bind(AuthController));
     router.post('/signin', guest, authenticate('local-login'));
     router.post('/logout', AuthController.logout.bind(AuthController));
-
     return router;
 }
 module.exports = {

@@ -12,6 +12,7 @@ module.exports = function () {
 
     const router = express.Router();
     router.use(express.urlencoded({ extended: false }));
+    router.use(express.json());
     router.use(passport.initialize());
     router.use(passport.session());
     // router.use(csrf());

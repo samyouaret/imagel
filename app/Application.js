@@ -47,6 +47,15 @@ class Application {
             }
             return message;
         };
+        global.render = (file, req, res, data = null) => {
+            const csrfToken = req.csrfToken ? req.csrfToken() : '';
+            let message = withMessage(req);
+            let isAuthenticated = req.isAuthenticated();
+            let user = req.user;
+            res.render(file, {
+                csrfToken, message, user, isAuthenticated, ...data
+            });
+        }
         this.app.set('view engine', this.env('VIEW_ENGINE'));
         this.app.set('views', this.VIEWS_PATH);
         this.app.use(isApi);

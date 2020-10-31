@@ -3,11 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="<%= csrfToken %>">
+    <meta name="scope" content="<%= isAuthenticated ? "user" : "guest" %>">
+    <meta name="user" content="<%= user ? user.id: '' %>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= env('APP_NAME') %></title>
     <link rel="stylesheet" href="/css/tailwind.css">
 </head>
-
 <body class="p-4">
     <nav class="nav">
     <div class="flex" style="max-width:80%">
@@ -32,10 +34,22 @@
             </button>
     </div>
     <div class="nav-links" data-collapsed="true">
-        <a class='nav-item' href="/home">Home</a>
-        <a class='nav-item border bg-blue-700 text-white hover:text-white' href="/images/create">Upload Image</a>
-        <a class='nav-item md:border md:border-blue-700 md:rounded-md md:ml-1' href="/signin">Signin</a>
-        <a class='nav-item md:border md:border-blue-700 md:rounded-md md:ml-1' href="/contact">Signup</a>
+        <% if (isAuthenticated) { %>
+            <a class='nav-item' href="/home">Home</a>
+            <a class='nav-item border bg-blue-700 text-white hover:text-white' href="/images/create">Upload Image</a>
+               <a class='nav-item font-semibold text-gray-700' href="/user/<%= user.id %>"><%= user.firstName  + " " + user.lastName %></a>
+            <a class='nav-item' href="#">
+            <form action="/logout" method="post" class="inline">
+                <div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                <input class="border-0 bg-transparent cursor-pointer" type="submit" value="Log out"/>
+             </div>
+            </form>
+            </a>
+         <% } else { %>
+            <a class='nav-item md:border md:border-blue-700 md:rounded-md md:ml-1' href="/signin">Signin</a>
+            <a class='nav-item md:border md:border-blue-700 md:rounded-md md:ml-1' href="/signup">Signup</a>
+        <% } %>
     </div>
 </nav>
 <script type="text/javascript">

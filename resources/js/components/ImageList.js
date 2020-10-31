@@ -2,14 +2,16 @@ import React from "react"
 import Image from "../components/Image"
 import useFetch from "../hooks/useFetch"
 
-function ImageList({ params }) {
+function ImageList(props) {
+    const params = props.params;
     let url = new URL(location.origin + '/images')
     if (params) {
+        console.log(params);
         url.search = new URLSearchParams(params).toString();
     }
-
-    const { response: images, error, setResponse: setImages } = useFetch(url, { query: {} });
-    if (images) {
+    console.log(url);
+    const { response: images, error, setResponse: setImages } = useFetch(url);
+    if (images && images.length > 0) {
         return (
             <div className="flex flex-wrap -m-1">
                 {images.map((image) => {
@@ -19,9 +21,10 @@ function ImageList({ params }) {
                 })}
             </div>
         )
+    } else {
+        return <div className="text-center text-2xl text-gray-600  border border-gray-300 mt-10 p-5">no Picture Found yet.</div>
     }
 
-    return null;
 }
 
 export default ImageList

@@ -2,14 +2,11 @@ const { env } = require('../../utils/PathHelper');
 class HomeController {
 
     index(req, res) {
-        res.render('index', {});
+        render('index', req, res);
     }
 
     home(req, res) {
-        const csrfToken = req.csrfToken ? req.csrfToken() : '';
-        res.render('home', {
-            csrfToken
-        });
+        render('home', req, res);
     }
 
 }

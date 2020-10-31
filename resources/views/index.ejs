@@ -1,4 +1,5 @@
 <%- include('layouts/header'); %>
+<input id="_csrf" type="hidden" name="_csrf" value="<%= csrfToken %>"/>
 <div id="app"></div>
 <script src="/js/index.bundle.js"></script>
 <%- include('layouts/footer'); %>

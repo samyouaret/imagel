@@ -58,6 +58,10 @@ class UserRepository extends Repository {
     async findByEmail(email) {
         return this.model.findOne({ where: { email } });
     }
+
+    async findById(id) {
+        return this.model.findOne({ where: { id } });
+    }
 }
 
 module.exports = UserRepository;

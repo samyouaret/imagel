@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import IndexPage from './pages/IndexPage'
+import UserPage from './pages/UserPage'
 // to avoid  error : regeneratorRuntime from "regenerator-runtime"
 // when using async, await 
 import regeneratorRuntime from "regenerator-runtime";
 
-ReactDOM.render(<IndexPage />,
+ReactDOM.render(<UserPage />,
     document.getElementById('app')
 );

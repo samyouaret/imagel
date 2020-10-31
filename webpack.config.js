@@ -8,6 +8,8 @@ module.exports = {
     // externals: [nodeExternals()], // in order to ignore all modules in no
     entry: {
         index: path.join(__dirname, "/resources/js/index.js"),
+        user: path.join(__dirname, "/resources/js/user.js"),
+        home: path.join(__dirname, "/resources/js/home.js"),
     },
     optimization: {
         minimizer: [new TerserPlugin()],

@@ -6,19 +6,11 @@ class AuthController {
     }
 
     login(req, res) {
-        let message = withMessage(req);
-        const csrfToken = req.csrfToken ? req.csrfToken() : '';
-        res.render('login', {
-            csrfToken, message
-        });
+        render('login', req, res);
     }
 
     register(req, res) {
-        let message = withMessage(req);
-        const csrfToken = req.csrfToken ? req.csrfToken() : '';
-        res.render('register', {
-            csrfToken, message
-        });
+        render('register', req, res);
     }
 
     logout(req, res) {

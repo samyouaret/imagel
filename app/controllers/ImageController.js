@@ -30,7 +30,6 @@ class ImageController {
     }
 
     async create(req, res) {
-        const csrfToken = req.csrfToken ? req.csrfToken() : '';
         // const image = await this.repository.getModel().findOne({
         //     where: { id: 1 }, 
         // });
@@ -38,10 +37,7 @@ class ImageController {
         // const owner = await image.getUser();
         // console.log(owner);
         // console.log(await owner.getImages}));
-        let message = withMessage(req);
-        res.render('image/create', {
-            csrfToken, message
-        });
+      render('image/create', req, res);
     }
 
     async store(req, res) {
@@ -57,22 +53,25 @@ class ImageController {
     }
 
     async edit(req, res) {
-        const csrfToken = req.csrfToken ? req.csrfToken() : '';
         const image = await this.repository
             .findById(req.params.image, { raw: true });
+        if (image.owner != req.user.id) {
+            return res.status(401).json({ error: 'Unauthorized' })
+        }
         if (!image) {
             return res.status(404).send('not Found');
         }
         let message = withMessage(req);
-        res.render('image/edit', {
-            csrfToken, message, image
-        });
+        render('image/edit', req, res, { image });
     }
 
     async update(req, res) {
         const image = await this.repository.findById(req.params.image);
         if (!image) {
             return res.status(404).send('not Found');
+        }
+        if (image.owner != req.user.id) {
+            return res.status(401).json({ error: 'Unauthorized' })
         }
         image.title = req.body.title;
         image.description = req.body.description;
@@ -98,18 +97,19 @@ class ImageController {
         if (!image) {
             return res.status(404).json({ error: 'image not found' })
         }
+        if (image.owner != req.user.id) {
+            return res.status(401).json({ error: 'Unauthorized' })
+        }
         try {
             await storage.delete('/uploads/' + image.url);
             await image.destroy();
             return res.status(200).json({ message: 'image deleted' });
         } catch (error) {
             console.log(error.stack);
-            // set the appropriate status here
-            return res.json({ error: 'cannot delete image' })
+            return res.status(422).json({ error: 'cannot delete image' })
         }
 
     }
-
 
 }
 

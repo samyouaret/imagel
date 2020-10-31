@@ -24,22 +24,28 @@ const fileFilter = (req, file, callback) => {
 const upload = multer('uploads', { fileFilter });
 router.use(upload.single('image'));
 
+let userController = createController('UserController');
+router.get('/user/:user', userController.show.bind(userController));
+router.post('/user/likes/:image',authCheck, userController.likeImage.bind(userController));
+
 const csrfProtection = csrf();
 
 router.use(csrfProtection);
+// define authentication routes
 auth(router);
 const imageRouter = express.Router();
-// imageRouter.use(authCheck);
 resources('/images', 'ImageController', {
     middlewares: {
         store: [imageValidator.rules(), validate],
-        update: [],
+        update: [authCheck],
+        edit: [authCheck],
+        create: [authCheck],
+        delete: [authCheck],
     },
     router: imageRouter
 });
 
-router.use(imageRouter);
 router.get('/', controller.index.bind(controller));
 router.get('/home', authCheck, controller.home.bind(controller));
-
+router.use(imageRouter);
 module.exports = router;

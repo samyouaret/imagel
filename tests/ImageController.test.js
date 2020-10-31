@@ -11,13 +11,14 @@ let image;
 beforeAll(async () => {
     image = await imageRepo.getModel().findOne({ raw: true });
     await storage.create('uploads/' + image.url);
+    fakeUser.id = image.owner;
     app.getServer()
         .use(actAs(fakeUser));
     app.init();
 });
 
 afterAll(async (done) => {
-    await storage.truncate("uploads");
+    // await storage.truncate("uploads");
     connection.close();
     done()
 });
