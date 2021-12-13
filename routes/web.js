@@ -6,7 +6,8 @@ const { multer } = require('../utils/storage');
 const csrf = require('../app/middlewares/csrf')
 const authMiddleware = require('../app/middlewares/auth')
 const imageValidator = require('../validators/imageValidator')
-const validate = require('../validators/validator')
+const validate = require('../validators/validator');
+const { root_path } = require('../utils/pathHelper');
 
 const router = authMiddleware();
 

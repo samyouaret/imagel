@@ -1,10 +1,14 @@
 const fs = require('fs');
-const { publicPath } = require('../config/storage');
+const {
+    publicPath, storeType
+} = require('../config/storage');
 const path = require('path');
 const multer = require('multer');
+
 const storage = (filePath) => {
     return path.join(publicPath, filePath);
 };
+
 module.exports = {
     storage,
     async create(filePath) {
@@ -56,17 +60,39 @@ module.exports = {
         });
     },
     multer(destination, options = null) {
-        const storage = multer.diskStorage({
-            destination: function (req, file, callback) {
-                callback(null, path.join(publicPath, destination))
-            },
-            filename: function (req, file, callback) {
-                let name = file.originalname.split('.');
-                let extension = '.' + name.pop();
-                const newName = name.join('') + '$_' + Date.now() + extension;
-                callback(null, newName)
-            }
-        });
-        return multer({ storage, ...options })
+        let genereateFileName = function (req, file, callback) {
+            let name = file.originalname.split('.');
+            let extension = '.' + name.pop();
+            const newName = name.join('') + '$_' + Date.now() + extension;
+            callback(null, newName)
+        }
+        let storage = null;
+        if (storeType == "s3") {
+            const multerS3 = require('multer-s3');
+            const aws = require('aws-sdk');
+            aws.config.update({
+                secretAccessKey: env('secretAccessKey'),
+                accessKeyId: env("accessKeyId"),
+                sessionToken: env("sessionToken"),
+                region: 'us-east-1'
+            });
+            const s3 = new aws.S3();
+            storage = multerS3({
+                s3: s3,
+                bucket: env("BUCKET_NAME"),
+                key: genereateFileName
+            })
+        } else {
+            storage = multer.diskStorage({
+                destination: function (req, file, callback) {
+                    callback(null, path.join(publicPath, destination))
+                },
+                filename: genereateFileName
+            });
+        }
+        return multer({
+            storage,
+            ...options
+        })
     }
 }

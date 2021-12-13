@@ -42,7 +42,7 @@
 }
 
 .nav-item {
-      @apply text-gray-800 text-md p-3;
+      @apply text-gray-800 text-sm p-3;
 }
 
 .nav-item:hover {

@@ -1,4 +1,4 @@
-const pathHelper = require('../utils/PathHelper');
+const pathHelper = require('../utils/pathHelper');
 const connection = require('../app/connection');
 
 module.exports = {

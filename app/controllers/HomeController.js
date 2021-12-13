@@ -1,4 +1,4 @@
-const { env } = require('../../utils/PathHelper');
+const { env } = require('../../utils/pathHelper');
 class HomeController {
 
     index(req, res) {

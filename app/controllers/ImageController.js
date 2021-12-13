@@ -37,7 +37,7 @@ class ImageController {
         // const owner = await image.getUser();
         // console.log(owner);
         // console.log(await owner.getImages}));
-      render('image/create', req, res);
+        render('image/create', req, res);
     }
 
     async store(req, res) {
@@ -49,7 +49,8 @@ class ImageController {
         image.description = req.body.description;
         image.url = req.file.filename;
         let newImage = await this.repository.create(image, req.user.id)
-        res.status(201).json(newImage);
+        // res.status(201).json(newImage);
+        res.redirect('/home');
     }
 
     async edit(req, res) {
@@ -87,7 +88,8 @@ class ImageController {
             }
         } else {
             const newImage = await image.save();
-            return res.status(200).json(newImage);
+            // return res.status(200).json(newImage);
+            res.redirect("/home");
         }
     }
 

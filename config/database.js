@@ -1,4 +1,4 @@
-const { env } = require('../utils/PathHelper');
+const { env } = require('../utils/pathHelper');
 
 module.exports = {
     development: {
@@ -6,7 +6,7 @@ module.exports = {
         password: env('DB_PASSWORD'),
         database: env('DB_DATABASE'),
         host: env('DB_HOST'),
-        port: 3306,
+        port: env('DB_PORT'),
         dialect: env('DB_CONNECTION'),
         dialectOptions: {
             bigNumberStrings: true,
@@ -20,7 +20,7 @@ module.exports = {
         password: env('DB_PASSWORD'),
         database: env('DB_DATABASE_TEST'),
         host: env('DB_HOST'),
-        port: 3306,
+        port: env('DB_PORT'),
         dialect: env('DB_CONNECTION'),
         dialectOptions: {
             bigNumberStrings: true
@@ -32,7 +32,7 @@ module.exports = {
         password: env('DB_PASSWORD'),
         database: env('DB_DATABASE'),
         host: env('DB_HOST'),
-        port: 3306,
+        port: env('DB_PORT'),
         dialect: env('DB_CONNECTION'),
         dialectOptions: {
             bigNumberStrings: true

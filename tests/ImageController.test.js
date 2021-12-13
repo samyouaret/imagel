@@ -4,7 +4,7 @@ const fakeUser = require('./fakers/user');
 const { actAs } = require('../utils/test');
 const storage = require('../utils/storage');
 const imageRepo = new ImageRepository();
-const { root_path } = require('../utils/PathHelper');
+const { root_path } = require('../utils/pathHelper');
 
 let image;
 

@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const { env, config_path } = require('../utils/PathHelper');
+const { env, config_path } = require('../utils/pathHelper');
 const config = require(config_path('database'));
 
 const initConnection = function () {

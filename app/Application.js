@@ -1,4 +1,4 @@
-const pathHelper = require('../utils/PathHelper');
+const pathHelper = require('../utils/pathHelper');
 const express = require('express');
 const fs = require('fs');
 const session = require('express-session');

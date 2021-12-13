@@ -1,5 +1,5 @@
 require('dotenv').config({ debug: true })
-const { root_path, config_path } =  require('./utils/PathHelper');
+const { root_path, config_path } =  require('./utils/pathHelper');
 
 module.exports = {
     'config': config_path('database.js'),
