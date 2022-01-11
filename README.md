@@ -8,6 +8,14 @@ An application to share images includes authentication, and it is built with Exp
 
 To get started developing you need to install `Nodejs`, and preferably using `yarn` as a package manager.
 
+A MYSQL  database must be setup.
+
+#### Creating env variables
+
+Change the application `env` variables, first create `.env` file form `.env.example`.
+
+    cp .env.example .env
+
 #### Run migrations
 
     yarn run migrate
@@ -40,6 +48,3 @@ To get started developing you need to install `Nodejs`, and preferably using `ya
 ![ Mobile View](https://github.com/samyouaret/imagel/blob/master/public/images/imagel-mobile_view.png)
 
 ![ Mobile View](https://github.com/samyouaret/imagel/blob/master/public/images/imagel_menu_mobile.png)
-
-
-![Profile page](https://github.com/samyouaret/imagel/blob/master/public/images/fmi-learning-profile.gif)
