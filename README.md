@@ -21,25 +21,25 @@ To get started developing you need to install `Nodejs`, and preferably using `ya
 
 #### Images show
 
-![Images show](https://github.com/samyouaret/fmi-elearning/blob/master/public/images/imagel-index-page.png)
+![Images show](https://github.com/samyouaret/imagel/blob/master/public/images/imagel-index-page.png)
 
-![Loved image](https://github.com/samyouaret/fmi-elearning/blob/master/public/images/imagel-pictures_showed.png)
+![Loved image](https://github.com/samyouaret/imagel/blob/master/public/images/imagel-pictures_showed.png)
 
-![ Model View](https://github.com/samyouaret/fmi-elearning/blob/master/public/images/imagel-image_modal.png)
+![ Model View](https://github.com/samyouaret/imagel/blob/master/public/images/imagel-image_modal.png)
 
 #### Create an image
 
-![Create image](https://github.com/samyouaret/fmi-elearning/blob/master/public/images/imagel-create-image.png)
+![Create image](https://github.com/samyouaret/imagel/blob/master/public/images/imagel-create-image.png)
 
 #### Edit an image
 
-![Edit image](https://github.com/samyouaret/fmi-elearning/blob/master/public/images/imagel-edit-image.png)
+![Edit image](https://github.com/samyouaret/imagel/blob/master/public/images/imagel-edit-image.png)
 
 #### Mobile View
 
-![ Mobile View](https://github.com/samyouaret/fmi-elearning/blob/master/public/images/imagel-mobile_view.png)
+![ Mobile View](https://github.com/samyouaret/imagel/blob/master/public/images/imagel-mobile_view.png)
 
-![ Mobile View](https://github.com/samyouaret/fmi-elearning/blob/master/public/images/imagel_menu_mobile.png)
+![ Mobile View](https://github.com/samyouaret/imagel/blob/master/public/images/imagel_menu_mobile.png)
 
 
-![Profile page](https://github.com/samyouaret/fmi-elearning/blob/master/public/images/fmi-learning-profile.gif)
+![Profile page](https://github.com/samyouaret/imagel/blob/master/public/images/fmi-learning-profile.gif)
