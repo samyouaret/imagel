@@ -63,7 +63,7 @@
     "postcss": "^7.0.32",
     "postcss-cli": "^7.1.1",
     "sequelize-cli": "^6.2.0",
-    "sqlite3": "^5.0.0",
+    "sqlite3": "^5.0.3",
     "supertest": "^4.0.2",
     "terser-webpack-plugin": "^3.0.7",
     "webpack": "^4.43.0",
